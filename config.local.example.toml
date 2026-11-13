@@ -1,0 +1,5 @@
+# 이 파일을 config.local.toml 로 복사해서 채우세요. (config.local.toml 은 git 제외)
+# 여기 값이 config.toml 의 같은 항목을 덮어씁니다.
+[db]
+path = '\\서버\공유폴더\APT4989.dll'
+password = '<mdb 비밀번호>'

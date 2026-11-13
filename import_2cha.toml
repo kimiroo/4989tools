@@ -1,0 +1,48 @@
+# 2차명단.xlsx → 4989 MAIN (한신 2차) 작업 설정
+
+[source]
+excel = '2차명단.xlsx'
+sheet = '조합원명부(동의자)'
+start_row = 7            # 1~6행은 제목/헤더/합계
+
+# 엑셀 열 (논리 이름 = 열 문자)
+[source.columns]
+no          = 'B'   # 번호 (공유자 묶음)
+name        = 'G'   # 성명
+address     = 'J'   # 주소
+phone1      = 'L'   # 전화번호
+phone2      = 'M'   # 전화번호2
+kind        = 'N'   # 단지 (아파트 / 상가)
+dong        = 'O'   # 동(층)  ← 값이 있는 행이 물건의 첫 행, 아래 빈 행들은 공유자
+ho          = 'P'   # 호
+old_pyeong  = 'Q'   # 기존 평형
+land_own    = 'R'   # 토지 소유면적(㎡)
+land_incl   = 'S'   # 토지 편입면적(㎡)
+bld_excl    = 'X'   # 건축물 전용면적(㎡)
+bld_own     = 'Y'   # 건축물 소유면적(㎡)
+usage       = 'Z'   # 용도 (단지 칸이 비어 있을 때 아파트/상가 판별용)
+
+[target]
+complex = '한신 2차'
+
+[apartment]
+kind_value = '아파트'
+allow_insert = false     # 아파트는 mdb 템플릿에 있는 동/호만 갱신
+# mdb 논리 컬럼별 병합 정책 (overwrite / prepend / append / fill_empty / keep)
+[apartment.policy]
+owner       = 'append' 
+owner_phone = 'append' 
+consult     = 'append'    # 상담(S28): 현주소 등 상세
+
+[store]
+kind_value = '상가'
+allow_insert = true
+pyeong_step = 10         # 평형(S2) = 건물 전용 평을 10단위 내림
+[store.policy]
+owner        = 'append' 
+owner_phone  = 'append' 
+consult      = 'append'    # 상담(S28): 면적 원본/원래 호수/현주소
+note         = 'append'    # 비고(S36): 다물건 표시만
+pyeong_class = 'overwrite'
+area_sqm     = 'overwrite'
+area_pyeong  = 'overwrite'

@@ -1,0 +1,64 @@
+# 4989 (APT4989.dll / Access mdb) 공통 설정
+# - 라이브러리(lib4989)는 컬럼을 항상 아래 [columns]의 "논리 이름"으로만 다룹니다.
+# - mdb 컬럼 용도가 바뀌면 여기만 고치면 됩니다. (스크립트 코드 수정 X)
+
+[db]
+# path / password 는 git 에 안 올라가는 config.local.toml 에 둡니다.
+# (config.local.example.toml 을 복사해서 채우기. 환경변수 APT4989_PASSWORD 가 있으면 우선)
+# 상대경로는 이 파일 기준. 실행 시 --db 로 덮어쓸 수 있음.
+path = 'APT4989.dll'
+driver = '{Microsoft Access Driver (*.mdb, *.accdb)}'
+table = 'MAIN'
+# --commit 실행 전 dll 파일을 같은 폴더에 .bak-타임스탬프 로 복사
+backup_before_commit = true
+
+[columns]
+# 논리 이름 = 'mdb 컬럼'   # 4989 화면 라벨 / 실제 사용 관례
+code           = 'S0'     # 코드 (자동번호)
+complex        = 'S1'     # 단지
+pyeong_class   = 'S2'     # 평형 (평 10단위 내림)
+dong           = 'S3'     # 동 (상가는 층)
+ho             = 'S4'     # 호
+area_sqm       = 'S5'     # 타입 → 전용면적(㎡) 관례
+area_pyeong    = 'S6'     # 방향 → 평 관례
+call_date      = 'S7'     # 통화일
+status         = 'S8'     # 현상태
+cur_deposit    = 'S9'     # 보증(현)
+cur_rent       = 'S10'    # 차임(현)
+loan           = 'S11'    # 융자
+exp_yy         = 'S12'    # 만
+exp_mm         = 'S13'    # 기
+exp_dd         = 'S14'    # 일
+cur_listing    = 'S15'    # 현매물
+eviction       = 'S16'    # 명도
+sale           = 'S17'    # 매매
+jeonse         = 'S18'    # 전세
+monthly        = 'S19'    # 월세
+sale_price     = 'S20'    # 매매가
+jeonse_price   = 'S21'    # 전세가
+deposit        = 'S22'    # 보증금
+rent           = 'S23'    # 차임
+register_date  = 'S24'    # 접수일
+extension      = 'S25'    # 확장
+builtin        = 'S26'    # 붙박이
+facility       = 'S27'    # 시설상태
+consult        = 'S28'    # 상담 (LONGCHAR)
+owner          = 'S29'    # 임대인(소유주) 이름
+owner_phone    = 'S30'    # 임대인 전화
+owner_agency   = 'S31'    # 임대부동산
+tenant         = 'S32'    # 임차인
+tenant_phone   = 'S33'    # 임차인 전화
+tenant_agency  = 'S34'    # 임차부동산
+manager        = 'S35'    # 담당
+note           = 'S36'    # 비고
+user1          = 'S37'    # 사용자1 (구 동호수 등)
+user2          = 'S38'    # 사용자2 (광고)
+user3          = 'S39'    # 사용자3
+user4          = 'S40'    # 사용자4
+user5          = 'S41'    # 사용자5
+color          = 'S42'    # 색상
+sale_note      = 'S43'    # 매매참고
+multi          = 'S44'    # 다중물건 (BIT)
+incoming_phone = 'S45'    # 수신전화
+input_date     = 'S46'    # 입력일
+attachments    = 'S47'    # 유첨파일

@@ -1,0 +1,24 @@
+# 비밀/로컬 설정
+config.local.toml
+auth_key.txt
+
+# 데이터 (개인정보 포함)
+*.xlsx
+*.xls
+~$*
+*.dll
+*.dll.*
+*.mdb
+*.accdb
+*.ldb
+*.laccdb
+reports/
+
+# Claude Code 개인 설정 (프로젝트 skill/settings.json 은 올림)
+.claude/settings.local.json
+
+# Python
+__pycache__/
+*.pyc
+.venv/
+venv/
