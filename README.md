@@ -15,8 +15,10 @@
 | `lib4989/text.py` | 전화번호/면적/평/키 정규화 |
 | `lib4989/dup.py` | 전화번호 추출, 다중물건 판정 |
 | `import_2cha.py` + `import_2cha.toml` | 2차명단 → '한신 2차' |
+| `import_4cha.py` + `import_4cha.toml` | 4차명단 → '한신4차' |
 | `flag_multi.py` | 다중물건(S44) 재계산 |
-| `.claude/skills/` | Claude Code skill: `4989-db`, `4989-import-2cha`, `4989-flag-multi` |
+| `compact_db.ps1` | DB 압축 및 복구 (Access 엔진, 검증 후 교체) |
+| `.claude/skills/` | Claude Code skill: `4989-db`, `4989-import-2cha`, `4989-import-4cha`, `4989-flag-multi`, `4989-compact` |
 
 ## 설치
 
@@ -45,6 +47,17 @@ Windows + Microsoft Access ODBC 드라이버가 필요합니다.
 - 상가: 층/호/면적으로 새 행. 면적 원본 숫자·현주소는 상담, 다물건 표시만 비고.
 - 이미 들어간 줄(글자까지 같은 줄)은 다시 넣지 않으므로 재실행해도 안전.
 
+## 4차명단 입력
+
+```powershell
+.\.venv\Scripts\python.exe import_4cha.py            # dry-run + 리포트
+.\.venv\Scripts\python.exe import_4cha.py --commit   # 반영
+```
+
+- 엑셀 1행 = 물건 1건 (`단지 / 동 / 호실 / 이름 / 전화번호`). 엑셀 '신반포4차' → mdb '한신 4차' (DB에 따라 다르면 `--complex`).
+- 기존 동/호 템플릿에 이름(S29)/전화(S30)만 기존 기록 **뒤에** 추가. 쉼표로 나뉜 공유자·번호는 한 줄씩, `-` 는 번호 없음.
+- 상담/비고/평형은 그대로. 재실행해도 안전(엄격 중복 비교).
+
 ## 다중물건(S44) 재계산
 
 ```powershell
@@ -55,6 +68,16 @@ Windows + Microsoft Access ODBC 드라이버가 필요합니다.
 - MAIN 전체에서 같은 임대인 번호가 2개 이상 물건에 나오면 True, 아니면 False (전체 재계산).
 - 번호 정제: 붙은 번호 분리, 9자리 미만 제외(`--min-digits`), 해외번호는 줄 숫자 전체.
 - 비교 칸 변경: `--fields owner_phone,tenant_phone`
+
+## DB 압축 및 복구
+
+```powershell
+powershell -ExecutionPolicy Bypass -File compact_db.ps1            # dry-run: 압축본 검증 후 삭제
+powershell -ExecutionPolicy Bypass -File compact_db.ps1 -Commit    # .bak-precompact 백업 후 교체
+```
+
+- MS Access '압축 및 복구'와 같은 작업을 Access 엔진(DAO)으로 실행. 새 파일에 다시 써서 빈 공간 제거, 인덱스 재생성.
+- 모든 테이블 행 수·정렬 방식이 같을 때만 교체. 4989 사용 중(`.ldb` 있음)이면 중단.
 
 ## 새 작업 만들 때
 
