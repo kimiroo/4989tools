@@ -1,0 +1,25 @@
+# 4차명단.xlsx → 4989 MAIN (한신4차) 작업 설정
+# 엑셀 1행 = 물건 1건 (공유자는 한 칸에 쉼표로 나열)
+
+[source]
+excel = '4차명단.xlsx'
+sheet = 'Sheet1'
+start_row = 2            # 1행은 헤더
+complex_value = '신반포4차'   # 엑셀 A열 값. 다르면 경고 후 무시
+
+# 엑셀 열 (논리 이름 = 열 문자)
+[source.columns]
+complex = 'A'   # 단지 (신반포4차)
+dong    = 'B'   # 동 ('201동' → 201)
+ho      = 'C'   # 호실
+name    = 'D'   # 이름 (쉼표로 여러 명, '(거주)' 등 메모는 그대로)
+phone   = 'E'   # 전화번호 (쉼표로 여러 개, '-' 는 없음)
+
+[target]
+complex = '한신 4차'     # 운영 mdb 의 단지명 (E:\...\4989 샘플 사본은 '한신4차' → --complex 로 지정)
+allow_insert = false     # mdb 템플릿에 있는 동/호만 갱신
+
+# mdb 논리 컬럼별 병합 정책 (overwrite / prepend / append / fill_empty / keep)
+[policy]
+owner       = 'append'
+owner_phone = 'append'
